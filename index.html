@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LuxStay - Hotel Management System</title>
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Loading Spinner -->
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <i class="fas fa-hotel"></i>
+                    <span>LuxStay</span>
+                </div>
+                <button class="hamburger" id="hamburger">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#" data-tab="dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="#" data-tab="booking"><i class="fas fa-calendar-check"></i> Book Room</a></li>
+                    <li><a href="#" data-tab="customers"><i class="fas fa-users"></i> Customers</a></li>
+                    <li><a href="#" data-tab="rooms"><i class="fas fa-bed"></i> Rooms</a></li>
+                    <li><a href="#" data-tab="billing"><i class="fas fa-receipt"></i> Billing</a></li>
+                    <li><a href="#" data-tab="login"><i class="fas fa-user-shield"></i> Admin</a></li>
+                </ul>
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Welcome to LuxStay Hotel</h1>
+            <p>Experience luxury at its finest with our premium rooms and world-class services.</p>
+            <a href="#" class="btn btn-secondary" data-tab="booking">Book Now <i class="fas fa-arrow-right"></i></a>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Dashboard Tab -->
+        <section class="tab-content active" id="dashboard">
+            <h2 class="section-title">Dashboard Overview</h2>
+            <div class="grid grid-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-icon">
+                            <i class="fas fa-door-open"></i>
+                        </div>
+                        <h3 class="card-title">Total Rooms</h3>
+                        <p class="card-value">24</p>
+                        <div class="room-status">
+                            <span class="badge badge-success"><i class="fas fa-check-circle"></i> Available: <span id="availableRooms">16</span></span>
+                            <span class="badge badge-danger"><i class="fas fa-times-circle"></i> Booked: <span id="bookedRooms">8</span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-icon">
+                            <i class="fas fa-user-friends"></i>
+                        </div>
+                        <h3 class="card-title">Current Guests</h3>
+                        <p class="card-value" id="currentGuests">12</p>
+                        <div class="guest-status">
+                            <small>Check-ins today: <strong>3</strong></small>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-icon">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <h3 class="card-title">Today's Revenue</h3>
+                        <p class="card-value" id="todayRevenue">$2,450</p>
+                        <div class="revenue-status">
+                            <small>Monthly: <strong>$45,200</strong></small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-2" style="margin-top: 2rem;">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="section-title">Recent Bookings</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Room</th>
+                                    <th>Check-in</th>
+                                    <th>Check-out</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentBookings">
+                                <tr>
+                                    <td>John Doe</td>
+                                    <td>101 (Deluxe)</td>
+                                    <td>May 08, 2025</td>
+                                    <td>May 12, 2025</td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Jane Smith</td>
+                                    <td>205 (Suite)</td>
+                                    <td>May 07, 2025</td>
+                                    <td>May 10, 2025</td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Robert Johnson</td>
+                                    <td>312 (Executive)</td>
+                                    <td>May 10, 2025</td>
+                                    <td>May 15, 2025</td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Emily Davis</td>
+                                    <td>108 (Standard)</td>
+                                    <td>May 09, 2025</td>
+                                    <td>May 11, 2025</td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="section-title">Occupancy Rate</h3>
+                        <div class="chart-container">
+                            <canvas id="occupancyChart"></canvas>
+                        </div>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <small>This Week</small>
+                                <strong>78%</strong>
+                            </div>
+                            <div class="stat-item">
+                                <small>This Month</small>
+                                <strong>82%</strong>
+                            </div>
+                            <div class="stat-item">
+                                <small>YTD Average</small>
+                                <strong>75%</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Booking Tab -->
+        <section class="tab-content" id="booking">
+            <h2 class="section-title">Room Reservation</h2>
+            <div class="card">
+                <div class="card-body">
+                    <form id="bookingForm">
+                        <div class="grid grid-2">
+                            <div class="form-group">
+                                <label for="name">Full Name</label>
+                                <input type="text" id="name" name="name" required>
+                                <div class="error" id="nameError"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" id="phone" name="phone" required>
+                                <div class="error" id="phoneError"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" required>
+                                <div class="error" id="emailError"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="guests">Number of Guests</label>
+                                <input type="number" id="guests" name="guests" min="1" max="4" value="1" required>
+                                <div class="error" id="guestsError"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="checkIn">Check-in Date</label>
+                                <div class="input-with-icon">
+                                    <input type="date" id="checkIn" name="checkIn" required>
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                                <div class="error" id="checkInError"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="checkOut">Check-out Date</label>
+                                <div class="input-with-icon">
+                                    <input type="date" id="checkOut" name="checkOut" required>
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                                <div class="error" id="checkOutError"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="roomType">Room Type</label>
+                                <select id="roomType" name="roomType" required>
+                                    <option value="">-- Select Room Type --</option>
+                                    <option value="standard">Standard Room ($100/night)</option>
+                                    <option value="deluxe">Deluxe Room ($150/night)</option>
+                                    <option value="suite">Suite ($250/night)</option>
+                                    <option value="executive">Executive Suite ($350/night)</option>
+                                </select>
+                                <div class="error" id="roomTypeError"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="roomNumber">Room Number</label>
+                                <select id="roomNumber" name="roomNumber" required>
+                                    <option value="">-- Select Room Number --</option>
+                                </select>
+                                <div class="error" id="roomNumberError"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Additional Services</label>
+                            <div class="services-grid">
+                                <label class="service-option">
+                                    <input type="checkbox" id="breakfast" name="breakfast" value="breakfast">
+                                    <div class="service-card">
+                                        <i class="fas fa-coffee"></i>
+                                        <span>Breakfast ($15/day)</span>
+                                    </div>
+                                </label>
+                                <label class="service-option">
+                                    <input type="checkbox" id="airport" name="airport" value="airport">
+                                    <div class="service-card">
+                                        <i class="fas fa-shuttle-van"></i>
+                                        <span>Airport Transfer ($50)</span>
+                                    </div>
+                                </label>
+                                <label class="service-option">
+                                    <input type="checkbox" id="spa" name="spa" value="spa">
+                                    <div class="service-card">
+                                        <i class="fas fa-spa"></i>
+                                        <span>Spa Access ($30/day)</span>
+                                    </div>
+                                </label>
+                                <label class="service-option">
+                                    <input type="checkbox" id="parking" name="parking" value="parking">
+                                    <div class="service-card">
+                                        <i class="fas fa-parking"></i>
+                                        <span>Parking ($20/day)</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="requests">Special Requests</label>
+                            <textarea id="requests" name="requests" rows="3" placeholder="Any special requirements or preferences..."></textarea>
+                        </div>
+
+                        <div class="form-group" style="margin-top: 1.5rem;">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-check-circle"></i> Confirm Booking
+                            </button>
+                            <button type="button" class="btn btn-secondary" id="calculateButton">
+                                <i class="fas fa-calculator"></i> Calculate Price
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Customers Tab -->
+        <section class="tab-content" id="customers">
+            <div class="section-header">
+                <h2 class="section-title">Guest Management</h2>
+                <button class="btn btn-primary" id="addCustomerBtn">
+                    <i class="fas fa-plus"></i> Add Guest
+                </button>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-controls">
+                        <div class="search-bar">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="customerSearch" class="search-input" placeholder="Search by name, room, or phone...">
+                        </div>
+                        <div class="table-actions">
+                            <button class="btn btn-secondary">
+                                <i class="fas fa-filter"></i> Filter
+                            </button>
+                            <button class="btn btn-secondary">
+                                <i class="fas fa-download"></i> Export
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Phone</th>
+                                    <th>Email</th>
+                                    <th>Room</th>
+                                    <th>Check-in</th>
+                                    <th>Check-out</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="customerTable">
+                                <tr>
+                                    <td>#1001</td>
+                                    <td>John Doe</td>
+                                    <td>(555) 123-4567</td>
+                                    <td>john@example.com</td>
+                                    <td>101 (Deluxe)</td>
+                                    <td>May 08, 2025</td>
+                                    <td>May 12, 2025</td>
+                                    <td><span class="badge badge-success">Checked In</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn btn-primary">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="action-btn btn-secondary">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="action-btn btn-danger">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#1002</td>
+                                    <td>Jane Smith</td>
+                                    <td>(555) 987-6543</td>
+                                    <td>jane@example.com</td>
+                                    <td>205 (Suite)</td>
+                                    <td>May 07, 2025</td>
+                                    <td>May 10, 2025</td>
+                                    <td><span class="badge badge-success">Checked In</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn btn-primary">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="action-btn btn-secondary">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="action-btn btn-danger">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#1003</td>
+                                    <td>Robert Johnson</td>
+                                    <td>(555) 456-7890</td>
+                                    <td>robert@example.com</td>
+                                    <td>312 (Executive)</td>
+                                    <td>May 10, 2025</td>
+                                    <td>May 15, 2025</td>
+                                    <td><span class="badge badge-warning">Pending</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn btn-primary">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="action-btn btn-secondary">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="action-btn btn-danger">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table-footer">
+                        <div class="table-info">
+                            Showing 1 to 3 of 12 entries
+                        </div>
+                        <div class="pagination">
+                            <button class="btn btn-secondary" disabled>
+                                <i class="fas fa-chevron-left"></i> Previous
+                            </button>
+                            <button class="btn btn-primary active">1</button>
+                            <button class="btn btn-secondary">2</button>
+                            <button class="btn btn-secondary">3</button>
+                            <button class="btn btn-secondary">
+                                Next <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Rooms Tab -->
+        <section class="tab-content" id="rooms">
+            <div class="section-header">
+                <h2 class="section-title">Room Inventory</h2>
+                <button class="btn btn-primary" id="addRoomBtn">
+                    <i class="fas fa-plus"></i> Add Room
+                </button>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="tabs">
+                        <button class="tab active" data-room-filter="all">All Rooms</button>
+                        <button class="tab" data-room-filter="standard">Standard</button>
+                        <button class="tab" data-room-filter="deluxe">Deluxe</button>
+                        <button class="tab" data-room-filter="suite">Suite</button>
+                        <button class="tab" data-room-filter="executive">Executive</button>
+                    </div>
+
+                    <div class="room-filters">
+                        <div class="filter-group">
+                            <label for="roomStatusFilter">Status:</label>
+                            <select id="roomStatusFilter">
+                                <option value="all">All Statuses</option>
+                                <option value="available">Available</option>
+                                <option value="occupied">Occupied</option>
+                                <option value="maintenance">Maintenance</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="roomFloorFilter">Floor:</label>
+                            <select id="roomFloorFilter">
+                                <option value="all">All Floors</option>
+                                <option value="1">1st Floor</option>
+                                <option value="2">2nd Floor</option>
+                                <option value="3">3rd Floor</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-3" id="roomsList">
+                        <div class="room-card card" data-type="deluxe" data-status="available" data-floor="1">
+                            <div class="room-image">
+                                <img src="./photo-1631049552057-403cdb8f0658.jpeg" alt="Deluxe Room">
+                                <span class="room-status-badge badge-success">Available</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="room-details">
+                                    <span class="room-type">Deluxe Room</span>
+                                    <span class="room-price">$150/night</span>
+                                </div>
+                                <div class="room-info">
+                                    <div class="room-info-item">
+                                        <i class="fas fa-door-open"></i>
+                                        <span>Room #101</span>
+                                    </div>
+                                    <div class="room-info-item">
+                                        <i class="fas fa-layer-group"></i>
+                                        <span>Floor 1</span>
+                                    </div>
+                                    <div class="room-info-item">
+                                        <i class="fas fa-user-friends"></i>
+                                        <span>Max: 2 Guests</span>
+                                    </div>
+                                </div>
+                                <div class="room-actions">
+                                    <button class="btn btn-primary btn-sm">
+                                        <i class="fas fa-book"></i> Book
+                                    </button>
+                                    <button class="btn btn-secondary btn-sm">
+                                        <i class="fas fa-info-circle"></i> Details
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="room-card card" data-type="suite" data-status="occupied" data-floor="2">
+                            <div class="room-image">
+                                <img src="./pexels-pixabay-271618.jpg" alt="Suite">
+                                <span class="room-status-badge badge-danger">Occupied</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="room-details">
+                                    <span class="room-type">Suite</span>
+                                    <span class="room-price">$250/night</span>
+                                </div>
+                                <div class="room-info">
+                                    <div class="room-info-item">
+                                        <i class="fas fa-door-open"></i>
+                                        <span>Room #205</span>
+                                    </div>
+                                    <div class="room-info-item">
+                                        <i class="fas fa-layer-group"></i>
+                                        <span>Floor 2</span>
+                                    </div>
+                                    <div class="room-info-item">
+                                        <i class="fas fa-user-friends"></i>
+                                        <span>Max: 4 Guests</span>
+                                    </div>
+                                </div>
+                                <div class="room-actions">
+                                    <button class="btn btn-primary btn-sm" disabled>
+                                        <i class="fas fa-book"></i> Book
+                                    </button>
+                                    <button class="btn btn-secondary btn-sm">
+                                        <i class="fas fa-info-circle"></i> Details
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="room-card card" data-type="executive" data-status="available" data-floor="3">
+                            <div class="room-image">
+                                <img src="./hotle.webp" alt="Executive Suite">
+                                <span class="room-status-badge badge-success">Available</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="room-details">
+                                    <span class="room-type">Executive Suite</span>
+                                    <span class="room-price">$350/night</span>
+                                </div>
+                                <div class="room-info">
+                                    <div class="room-info-item">
+                                        <i class="fas fa-door-open"></i>
+                                        <span>Room #301</span>
+                                    </div>
+                                    <div class="room-info-item">
+                                        <i class="fas fa-layer-group"></i>
+                                        <span>Floor 3</span>
+                                    </div>
+                                    <div class="room-info-item">
+                                        <i class="fas fa-user-friends"></i>
+                                        <span>Max: 2 Guests</span>
+                                    </div>
+                                </div>
+                                <div class="room-actions">
+                                    <button class="btn btn-primary btn-sm">
+                                        <i class="fas fa-book"></i> Book
+                                    </button>
+                                    <button class="btn btn-secondary btn-sm">
+                                        <i class="fas fa-info-circle"></i> Details
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Billing Tab -->
+        <section class="tab-content" id="billing">
+            <div class="section-header">
+                <h2 class="section-title">Billing & Invoices</h2>
+                <button class="btn btn-primary" id="createInvoiceBtn">
+                    <i class="fas fa-plus"></i> Create Invoice
+                </button>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="tabs">
+                        <button class="tab active" data-billing-tab="invoices">Invoices</button>
+                        <button class="tab" data-billing-tab="payments">Payments</button>
+                        <button class="tab" data-billing-tab="receipts">Receipts</button>
+                    </div>
+
+                    <div class="tab-content active" id="invoicesTab">
+                        <div class="table-controls">
+                            <div class="search-bar">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="invoiceSearch" class="search-input" placeholder="Search invoices...">
+                            </div>
+                            <div class="table-actions">
+                                <button class="btn btn-secondary">
+                                    <i class="fas fa-filter"></i> Filter
+                                </button>
+                                <button class="btn btn-secondary">
+                                    <i class="fas fa-download"></i> Export
+                                </button>
+                                <button class="btn btn-secondary">
+                                    <i class="fas fa-print"></i> Print
+                                </button>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Invoice #</th>
+                                        <th>Guest</th>
+                                        <th>Room</th>
+                                        <th>Date</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>#INV-2025-1001</td>
+                                        <td>John Doe</td>
+                                        <td>101 (Deluxe)</td>
+                                        <td>May 08, 2025</td>
+                                        <td>$750.00</td>
+                                        <td><span class="badge badge-success">Paid</span></td>
+                                        <td>
+                                            <div class="action-buttons">
+                                                <button class="action-btn btn-primary">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                <button class="action-btn btn-secondary">
+                                                    <i class="fas fa-print"></i>
+                                                </button>
+                                                <button class="action-btn btn-danger">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#INV-2025-1002</td>
+                                        <td>Jane Smith</td>
+                                        <td>205 (Suite)</td>
+                                        <td>May 07, 2025</td>
+                                        <td>$1,250.00</td>
+                                        <td><span class="badge badge-success">Paid</span></td>
+                                        <td>
+                                            <div class="action-buttons">
+                                                <button class="action-btn btn-primary">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                <button class="action-btn btn-secondary">
+                                                    <i class="fas fa-print"></i>
+                                                </button>
+                                                <button class="action-btn btn-danger">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#INV-2025-1003</td>
+                                        <td>Robert Johnson</td>
+                                        <td>312 (Executive)</td>
+                                        <td>May 10, 2025</td>
+                                        <td>$1,750.00</td>
+                                        <td><span class="badge badge-warning">Pending</span></td>
+                                        <td>
+                                            <div class="action-buttons">
+                                                <button class="action-btn btn-primary">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                <button class="action-btn btn-secondary">
+                                                    <i class="fas fa-print"></i>
+                                                </button>
+                                                <button class="action-btn btn-success">
+                                                    <i class="fas fa-dollar-sign"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="table-footer">
+                            <div class="table-info">
+                                Showing 1 to 3 of 8 entries
+                            </div>
+                            <div class="pagination">
+                                <button class="btn btn-secondary" disabled>
+                                    <i class="fas fa-chevron-left"></i> Previous
+                                </button>
+                                <button class="btn btn-primary active">1</button>
+                                <button class="btn btn-secondary">2</button>
+                                <button class="btn btn-secondary">3</button>
+                                <button class="btn btn-secondary">
+                                    Next <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="paymentsTab">
+                        <p>Payments content goes here...</p>
+                    </div>
+
+                    <div class="tab-content" id="receiptsTab">
+                        <p>Receipts content goes here...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Login/Admin Tab -->
+        <section class="tab-content" id="login">
+            <div class="login-container">
+                <div class="login-card card">
+                    <div class="card-body">
+                        <div class="login-header">
+                            <h2 class="section-title">Admin Login</h2>
+                            <p>Access the hotel management system</p>
+                        </div>
+                        <form id="loginForm">
+                            <div class="form-group">
+                                <label for="username">Username</label>
+                                <div class="input-with-icon">
+                                    <input type="text" id="username" name="username" required>
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="error" id="usernameError"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <div class="input-with-icon">
+                                    <input type="password" id="password" name="password" required>
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                                <div class="error" id="passwordError"></div>
+                            </div>
+                            <div class="form-group remember-forgot">
+                                <label class="remember-me">
+                                    <input type="checkbox" id="remember" name="remember">
+                                    <span>Remember me</span>
+                                </label>
+                                <a href="#" class="forgot-password">Forgot password?</a>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary btn-block">
+                                    <i class="fas fa-sign-in-alt"></i> Login
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="footer-title">LuxStay Hotel</h3>
+                    <p>Experience luxury at its finest with our premium rooms and world-class services.</p>
+                    <div class="contact-info">
+                        <p><i class="fas fa-map-marker-alt"></i> 123 Luxury Avenue, City</p>
+                        <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                        <p><i class="fas fa-envelope"></i> info@luxstayhotel.com</p>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Rooms & Suites</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Amenities</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Gallery</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Connect With Us</h3>
+                    <p>Follow us on social media for updates and offers.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                    <div class="newsletter">
+                        <p>Subscribe to our newsletter</p>
+                        <form class="newsletter-form">
+                            <input type="email" placeholder="Your email address">
+                            <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 LuxStay Hotel. All Rights Reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Invoice Modal -->
+    <div class="modal-overlay" id="invoiceModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Invoice #INV-2025-1001</h3>
+                <button class="close-modal" id="closeInvoiceModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="invoice">
+                    <div class="invoice-header">
+                        <div class="invoice-logo">LuxStay</div>
+                        <div class="invoice-details">
+                            <p>Invoice #INV-2025-1001</p>
+                            <p>Date: May 08, 2025</p>
+                            <p>Due Date: May 12, 2025</p>
+                        </div>
+                    </div>
+                    <div class="invoice-customer">
+                        <h4>Bill To:</h4>
+                        <p>John Doe</p>
+                        <p>Room 101 (Deluxe)</p>
+                        <p>Check-in: May 08, 2025</p>
+                        <p>Check-out: May 12, 2025</p>
+                    </div>
+                    <div class="invoice-items">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Description</th>
+                                    <th>Quantity</th>
+                                    <th>Unit Price</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Deluxe Room (4 nights)</td>
+                                    <td>4</td>
+                                    <td>$150.00</td>
+                                    <td>$600.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Breakfast (4 days)</td>
+                                    <td>4</td>
+                                    <td>$15.00</td>
+                                    <td>$60.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Spa Access (2 days)</td>
+                                    <td>2</td>
+                                    <td>$30.00</td>
+                                    <td>$60.00</td>
+                                </tr>
+                                <tr>
+                                    <td>City Tax</td>
+                                    <td>1</td>
+                                    <td>$30.00</td>
+                                    <td>$30.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="invoice-total">
+                        <p>Subtotal: $750.00</p>
+                        <p>Tax (10%): $75.00</p>
+                        <p>Total: $825.00</p>
+                    </div>
+                    <div class="payment-method">
+                        <h4>Payment Method:</h4>
+                        <p>Credit Card (**** **** **** 4242)</p>
+                    </div>
+                    <div class="invoice-footer">
+                        <p>Thank you for choosing LuxStay Hotel!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="printInvoice">
+                    <i class="fas fa-print"></i> Print
+                </button>
+                <button class="btn btn-primary" id="closeInvoiceBtn">
+                    <i class="fas fa-check"></i> Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Customer Modal -->
+    <div class="modal-overlay" id="customerModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Add New Guest</h3>
+                <button class="close-modal" id="closeCustomerModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="customerForm">
+                    <div class="grid grid-2">
+                        <div class="form-group">
+                            <label for="customerName">Full Name</label>
+                            <input type="text" id="customerName" name="customerName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="customerPhone">Phone Number</label>
+                            <input type="tel" id="customerPhone" name="customerPhone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="customerEmail">Email</label>
+                            <input type="email" id="customerEmail" name="customerEmail" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="customerIdType">ID Type</label>
+                            <select id="customerIdType" name="customerIdType">
+                                <option value="passport">Passport</option>
+                                <option value="driver_license">Driver's License</option>
+                                <option value="national_id">National ID</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="customerIdNumber">ID Number</label>
+                            <input type="text" id="customerIdNumber" name="customerIdNumber">
+                        </div>
+                        <div class="form-group">
+                            <label for="customerAddress">Address</label>
+                            <textarea id="customerAddress" name="customerAddress" rows="2"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Additional Information</label>
+                        <textarea id="customerNotes" name="customerNotes" rows="3" placeholder="Any special notes about the guest..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelCustomerBtn">
+                    Cancel
+                </button>
+                <button class="btn btn-primary" id="saveCustomerBtn">
+                    Save Guest
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Room Modal -->
+    <div class="modal-overlay" id="roomModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Add New Room</h3>
+                <button class="close-modal" id="closeRoomModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="roomForm">
+                    <div class="grid grid-2">
+                        <div class="form-group">
+                            <label for="roomNumber">Room Number</label>
+                            <input type="text" id="roomNumberModal" name="roomNumber" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="roomFloor">Floor</label>
+                            <select id="roomFloor" name="roomFloor" required>
+                                <option value="1">1st Floor</option>
+                                <option value="2">2nd Floor</option>
+                                <option value="3">3rd Floor</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="roomTypeModal">Room Type</label>
+                            <select id="roomTypeModal" name="roomType" required>
+                                <option value="standard">Standard</option>
+                                <option value="deluxe">Deluxe</option>
+                                <option value="suite">Suite</option>
+                                <option value="executive">Executive</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="roomCapacity">Capacity</label>
+                            <input type="number" id="roomCapacity" name="roomCapacity" min="1" max="6" value="2" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="roomPrice">Price per Night ($)</label>
+                            <input type="number" id="roomPrice" name="roomPrice" min="50" step="10" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="roomStatus">Status</label>
+                            <select id="roomStatus" name="roomStatus" required>
+                                <option value="available">Available</option>
+                                <option value="occupied">Occupied</option>
+                                <option value="maintenance">Maintenance</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="roomDescription">Description</label>
+                        <textarea id="roomDescription" name="roomDescription" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="roomFeatures">Room Features</label>
+                        <div class="features-grid">
+                            <label class="feature-option">
+                                <input type="checkbox" name="wifi" checked>
+                                <span>WiFi</span>
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox" name="tv" checked>
+                                <span>TV</span>
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox" name="ac">
+                                <span>Air Conditioning</span>
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox" name="minibar">
+                                <span>Minibar</span>
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox" name="safe">
+                                <span>Safe</span>
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox" name="balcony">
+                                <span>Balcony</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="roomImage">Room Image</label>
+                        <input type="file" id="roomImage" name="roomImage" accept="image/*">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelRoomBtn">
+                    Cancel
+                </button>
+                <button class="btn btn-primary" id="saveRoomBtn">
+                    Save Room
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="./js/scrip.js"></script>
+     <script src="./js/new.js"></script>
+</body>
+</html>
